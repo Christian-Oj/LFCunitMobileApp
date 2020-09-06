@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LFCUnit</string>
+    <string name="church_name">Living Faith Church</string>
+    <string name="unit_name">Crowd Control Unit</string>
+    <string name="username">Enter Username</string>
+    <string name="sign_up_button">Sign up</string>
+    <string name="sign_up_with_gmail">Sign up with Gmail</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+</resources>
