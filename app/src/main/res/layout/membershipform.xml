@@ -4,26 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:fillViewport="true"
+    android:background="@color/colorBackground"
     android:layout_height="match_parent">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <ImageView
-            android:id="@+id/profile_pic"
-            android:layout_width="119dp"
-            android:layout_height="115dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginTop="28dp"
+            android:src="@drawable/lfclogo"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/img_circle" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/submit_user"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/round_social_button"
+            android:text="Create Member"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lcc" />
 
         <EditText
             android:id="@+id/first_name"
-            android:layout_width="321dp"
+            android:layout_width="0dp"
             android:layout_height="43dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -31,34 +49,22 @@
             android:ems="10"
             android:hint="First Name"
             android:inputType="textPersonName"
+            app:layout_constraintDimensionRatio=""
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/title"
-            app:layout_constraintTop_toBottomOf="@+id/profile_pic" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
         <Spinner
             android:id="@+id/title"
-            android:layout_width="82dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="8dp"
-
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_pic" />
-
-        <EditText
-            android:id="@+id/middle_name"
-            android:layout_width="0dp"
+            android:layout_width="126dp"
             android:layout_height="43dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="Middle Name"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_name" />
+            android:contentDescription="@string/user_title"
+            android:entries="@array/titles"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/profile_image"/>
 
         <EditText
             android:id="@+id/last_name"
@@ -67,10 +73,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="Last Name"
             android:ems="10"
+            android:hint="Last Name"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/middle_name" />
 
@@ -82,8 +89,18 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/last_name" />
+
+        <Spinner
+            android:id="@+id/gender"
+            android:layout_width="117dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/gender"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/occupation"/>
 
         <EditText
             android:id="@+id/phone_number"
@@ -96,16 +113,8 @@
             android:inputType="phone"
             android:maxLength="11"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/gender"
-            app:layout_constraintTop_toBottomOf="@+id/occupation" />
-
-        <Spinner
-            android:id="@+id/gender"
-            android:layout_width="117dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/occupation" />
 
         <EditText
@@ -116,24 +125,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
+            android:hint="Education Level"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_number" />
-
-        <Button
-            android:id="@+id/submit_user"
-            android:layout_width="250dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="176dp"
-            android:textAllCaps="false"
-            android:text="Create Member"
-            android:background="@drawable/round_social_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edu_level" />
 
         <EditText
             android:id="@+id/editTextTextPersonName7"
@@ -146,8 +143,90 @@
             android:inputType="textPersonName"
             android:text="Name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edu_level" />
+
+        <EditText
+            android:id="@+id/baptism_date"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="Baptism Date"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/new_birth_date"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7" />
+
+        <EditText
+            android:id="@+id/new_birth_date"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="New Birth Date"
+            android:inputType="date"
+            app:layout_constraintEnd_toStartOf="@+id/baptism_date"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7" />
+
+        <Spinner
+            android:id="@+id/bcc"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/lcc"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/new_birth_date" />
+
+        <Spinner
+            android:id="@+id/lcc"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/ldc"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/bcc"
+            app:layout_constraintTop_toBottomOf="@+id/baptism_date" />
+
+        <Spinner
+            android:id="@+id/ldc"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/lcc"
+            app:layout_constraintTop_toBottomOf="@+id/baptism_date" />
+
+        <EditText
+            android:id="@+id/middle_name"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="Middle Name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/first_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

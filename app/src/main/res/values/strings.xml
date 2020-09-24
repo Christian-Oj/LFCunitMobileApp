@@ -8,4 +8,54 @@
     <string name="enter_email">Enter email</string>
     <string name="enter_password">Enter password</string>
     <string name="already_have_an_account">Already have an account?</string>
+    <string name="user_title">user title</string>
+    <string name="title_activity_unit_member_list">Unit Members</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="branch_unit_textView">Please select your Church Branch and Service Unit</string>
+    <array name="titles">
+        <item></item>
+        <item>Mr</item>
+        <item>Mrs</item>
+        <item>Master</item>
+        <item>Mrs</item>
+    </array>
+
+    <array name="gender">
+        <item></item>
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+
+    <array name="units">
+        <item></item>
+        <item>Crowd Control Unit(CCU)</item>
+        <item>Hospitality Unit</item>
+        <item>Security Unit</item>
+        <item>Ushering Unit</item>
+        <item>Protocol Unit</item>
+        <item>Sanctuary Unit</item>
+        <item>Sunday School Unit</item>
+        <item>Drama Unit</item>
+        <item>Choir Unit</item>
+        <item>Decoration Unit</item>
+        <item>Prayer Squad Unit</item>
+        <item>Gilead Unit</item>
+        <item>Horticulture Unit</item>
+    </array>
+
+    <array name="church_branch">
+        <item></item>
+        <item>Canaan Land</item>
+        <item>LFC Iyekogba</item>
+        <item>LFC Aduwawa</item>
+        <item>LFC Agbor Road</item>
+        <item>LFC Sapele Road</item>
+    </array>
 </resources>
