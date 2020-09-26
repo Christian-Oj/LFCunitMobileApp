@@ -1,11 +1,12 @@
 package com.winners.lfcunit
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -17,17 +18,21 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.winners.lfcunit.validators.validator
 
 
 private lateinit var sign_up_button:Button
 private lateinit var gmail_sign_Button:Button
-private lateinit var user_name:TextView
-private lateinit var email:TextView
-private lateinit var password:TextView
+private lateinit var user_name:EditText
+private lateinit var email:EditText
+private lateinit var password:EditText
+private lateinit var confirm_password:EditText
 private lateinit var sign_in:TextView
 lateinit var signCLient:GoogleSignInClient
 lateinit var gso: GoogleSignInOptions
 lateinit var account:GoogleSignInAccount
+private lateinit var select_branch_name_spinner:Spinner
+private lateinit var select_unit_name_sign_spinner:Spinner
 public var GOOGLE_SIGN_IN_Activity:Int = 200
 private val realtimeDatabaseManager by lazy { Realtime_data()}
 private const val TAG:String = "SIGN_UP_ACTIVITY"
@@ -35,6 +40,8 @@ private const val TAG:String = "SIGN_UP_ACTIVITY"
 class Signup : AppCompatActivity(), View.OnClickListener {
     private lateinit var googleSign:Intent
     private lateinit var auth:FirebaseAuth
+    private lateinit var branch_name: String
+    private lateinit var unit_name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +53,17 @@ class Signup : AppCompatActivity(), View.OnClickListener {
         email = findViewById(R.id.email_view)
         password = findViewById(R.id.password_view)
         sign_in = findViewById(R.id.sign_in)
+        select_branch_name_spinner = findViewById(R.id.branch_name_signUp)
+        select_unit_name_sign_spinner = findViewById(R.id.select_unit_name_signUp)
+        confirm_password = findViewById(R.id.confirm_password)
 
         auth = FirebaseAuth.getInstance()
 
         setListener()
         configRequest()
         signCLient = GoogleSignIn.getClient(this, gso)
-        toastMessage(this, "am on create function")
+
+        SpinnerAdapterSignUp()
 
     }
 
@@ -67,8 +78,8 @@ class Signup : AppCompatActivity(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
-        UpdateUI(context=this, user=currentUser)
-        toastMessage(this, ""+currentUser)
+        UpdateUI(context = this, user = currentUser)
+        toastMessage(this, "" + currentUser)
     }
 
     override fun onDestroy() {
@@ -93,7 +104,11 @@ class Signup : AppCompatActivity(), View.OnClickListener {
         sign_in.setOnClickListener(this)
     }
 
+    private fun SpinnerAdapterSignUp() {
+        select_unit_name_sign_spinner.adapter = assignSpinnerAdapter(this, R.array.units)
+        select_branch_name_spinner.adapter = assignSpinnerAdapter(this, R.array.church_branch)
 
+    }
 
     override fun onClick(v: View?) {
         if (v != null){
@@ -114,7 +129,7 @@ class Signup : AppCompatActivity(), View.OnClickListener {
 
     private fun selectUnitActivity(user: FirebaseUser?){
         val intent = Intent(this, user_branch_and_unit::class.java)
-        intent.putExtra(USER_EMAIL,user!!.email)
+        intent.putExtra(USER_EMAIL, user!!.email)
         intent.putExtra(USER_DISPLAYNAME, user.displayName)
         intent.putExtra(USER_PASSWORD, "GUEST USER")
 
@@ -135,38 +150,27 @@ class Signup : AppCompatActivity(), View.OnClickListener {
             try {
                 val account = task.getResult(ApiException::class.java)!!
                 firebaseAuthwithGoogle(account.idToken!!)
-            }catch (e:ApiException){
-                toastMessage(this, ""+e.message)
-                Log.d("TAG", ""+e.message.toString())
+            }catch (e: ApiException){
+                toastMessage(this, "" + e.message)
+                Log.d("TAG", "" + e.message.toString())
             }
 
         }
     }
 
-//    private fun handleSignedResult(task: Task<GoogleSignInAccount>) {
-//        try {
-//            val account = task.getResult(ApiException::class.java)
-//            updateUI(account)
-//        }catch (e:ApiException){
-//            Throwable(e)
-//            toastMessage(this, e.message.toString())
-//            Log.d("TAG", "Signed Result Failed"+e.message)
-//            updateUI(null)
-//        }
-//    }
 
 
-    private fun firebaseAuthwithGoogle(idToken:String){
+    private fun firebaseAuthwithGoogle(idToken: String){
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener(this){task ->
+        auth.signInWithCredential(credential).addOnCompleteListener(this){ task ->
             if (task.isSuccessful){
-                val user = auth.currentUser
+                val firebaseuser = auth.currentUser
                 toastMessage(this, "Google Firebase is successfully signed in")
-                UpdateUI(context=this, user=user)
-                if (user != null) {
-                    Log.d(TAG,""+user.email+" "+user.displayName+" "+user.photoUrl)
-                    toastMessage(this, ""+user.email+" "+user.displayName+" "+user.photoUrl)
-                    selectUnitActivity(user)
+                UpdateUI(context = this, user = firebaseuser)
+                if (firebaseuser != null) {
+                    Log.d(TAG, "" + firebaseuser.email + " " + firebaseuser.displayName + " " + firebaseuser.photoUrl)
+                    toastMessage(this, "" + firebaseuser.email + " " + firebaseuser.displayName + " " + firebaseuser.photoUrl)
+                    selectUnitActivity(firebaseuser)
 //                    google_user = user
 //                    SaveUserToDB(user)
                 }
@@ -178,48 +182,71 @@ class Signup : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun createUserwithEmailPassword(){
-        val usermail = email.text.toString()
-        val password = password.text.toString()
-        if (usermail != null && password != null){
-            auth.createUserWithEmailAndPassword(usermail, password)
-                .addOnCompleteListener(this){task ->
-                    if (task.isSuccessful){
-                        val user = auth.currentUser
-//                        toastMessage(this, "Firebase is successfully signed in")
-                        UpdateUI(context=this, user=user)
-                        if (user != null) {
-                            Log.d(TAG,""+user.email+" "+user.displayName+" "+user.photoUrl)
-                            toastMessage(this, ""+user.email+" "+user.displayName+" "+user.photoUrl)
-//                            SaveUserToDB(user)
-                        }
-                    }else{
-                        toastMessage(this, "Firebase is not successfully signed in")
-                        UpdateUI(context = this)
-                    }
+
+        val edittextArray = arrayOf(user_name, email, password, confirm_password)
+        val spinnersArray = arrayOf(select_branch_name_spinner, select_unit_name_sign_spinner)
+        val validResult = validator.validateEditText(edittextArray)
+        val validSpinnerResult = validator.validateSpinners(this, spinnersArray)
+
+        if (!validResult && !validSpinnerResult){
+            toastMessage(this , "Edit text validator passed")
+            branch_name = select_branch_name_spinner.selectedItem.toString()
+            unit_name = select_unit_name_sign_spinner.selectedItem.toString()
+            val email = email.text.toString()
+            val pass = password.text.toString()
+            val pass_confirm = confirm_password.text.toString()
+            if (validator.passwordMatch(pass, pass_confirm)){
+//                firebaseSignupwithEmailPassword(email,pass)
+            }else {
+                password.apply {
+                    focusable
+                    setError("Password don't match")
                 }
-        }else toastMessage(this, "email and password not supplied")
+                confirm_password.apply {
+                    focusable
+                    setError("Password don't match")
+                }
+            }
+        }
 
     }
 
-    fun SaveUserToDB(email:String,password:String,display_name:String,branch_name:String,unit_name:String){
-        val userObj = User(email,password, display_name)
-        realtimeDatabaseManager.saveUser(userObj,branch_name,unit_name,onSuccessAction,onFailureAction)
-        toastMessage(this, "Save User to DB ${this.localClassName}")
+    private fun firebaseSignupwithEmailPassword(email:String, password:String){
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this){ task ->
+                if (task.isSuccessful){
+                    val user = auth.currentUser
+                    UpdateUI(context = this, user = user)
+                    if (user != null) {
+                        SaveUserToDB(user.email!!, "GUest", user.displayName!!, branch_name, unit_name)
+//                        Log.d(TAG, "" + user.email + " " + user.displayName + " " + user.photoUrl, )
+                        toastMessage(this, "" + user.email + " " + user.displayName + " " + user.photoUrl)
+                    }
+                }else{
+                    toastMessage(this, "Firebase is not successfully signed in")
+                    UpdateUI(context = this)
+                }
+            }
     }
-
-    val onSuccessAction:() -> Unit = { println("User Created Successfully") }
-    val onFailureAction:() -> Unit = { println("User not Created") }
 
 
     fun signOut() = FirebaseAuth.getInstance().signOut()
 
     companion object{
+
+        val onSuccessAction:() -> Unit = { println("User Created Successfully") }
+        val onFailureAction:() -> Unit = { println("User not Created") }
         val USER_EMAIL = "USER_EMAIL"
         val USER_DISPLAYNAME = "USER_DISPLAYNAME"
         val USER_PASSWORD = "USER_PASSWORD"
         private lateinit var google_user:FirebaseUser
 
+        fun SaveUserToDB(email: String, password: String, display_name: String, branch_name: String, unit_name: String){
+            val userObj = User(email=email, password=password, username=display_name)
+            realtimeDatabaseManager.saveUser(userObj, branch_name, unit_name, onSuccessAction, onFailureAction)
+            Log.d(TAG, "${branch_name} ${unit_name} ${email} ${password} ${display_name} ")
+        }
+
     }
 
-//    private fun getUsers() = Realtime_data().getUser
 }

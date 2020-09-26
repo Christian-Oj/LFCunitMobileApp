@@ -2,6 +2,7 @@ package com.winners.lfcunit
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
@@ -37,10 +38,13 @@ fun assignSpinnerAdapter(context: Context, array:Int): ArrayAdapter<CharSequence
 }
 
 fun assignSpinnerListener(spinner: Spinner, array:Array<String>):String{
-    var array_value = ""
+    var array_value = "Hub"
     spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             array_value = array[position]
+            Log.d("TEST SPINNER", array_value)
+
         }
         override fun onNothingSelected(parent: AdapterView<*>?) {
             TODO("Not yet implemented")
@@ -48,4 +52,5 @@ fun assignSpinnerListener(spinner: Spinner, array:Array<String>):String{
     }
     return array_value
 }
+
 

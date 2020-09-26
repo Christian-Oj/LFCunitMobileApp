@@ -3,6 +3,7 @@ package com.winners.lfcunit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -56,35 +57,28 @@ class user_branch_and_unit : AppCompatActivity(), View.OnClickListener {
 
     private fun getValueFromGoogleSignUp(bundle: Bundle) {
         var user_array_values = arrayListOf<String>()
-//        val bundle_Values = bundle.
         email = bundle.getString(Signup.USER_EMAIL).toString()
         passord = bundle.getString(Signup.USER_PASSWORD).toString()
         displayname = bundle.getString(Signup.USER_DISPLAYNAME).toString()
 
-//        toastMessage(this, "$email $passord $displayname")
 
-//        user_array_values.add(email)
-//        user_array_values.add(passord)
-//        user_array_values.add(displayname)
-//
-//        return user_array_values
 
     }
 
     private fun branch_unit_Class_saveUser() {
-        var user_branch:String=""
-        var user_unit:String=""
+//        var user_branch:String=""
+//        var user_unit:String=""
+        val user_branch = spinner_branch.selectedItem.toString().replace(" ", "_")
+        val user_unit = spinner_unit.selectedItem.toString().replace(" ", "_")
 
-        user_branch = assignSpinnerListener(spinner_branch, branch_array)
-        user_unit = assignSpinnerListener(spinner_unit, unit_array)
-        toastMessage(this, "$user_branch $user_unit am not seeing the value")
+//        user_branch = assignSpinnerListener(spinner_branch, branch_array)
 
-//        val user_unit = spinner_unit.selectedItem.toString()
         if (intent_value != null) {
             getValueFromGoogleSignUp(intent_value!!)
 
-//            toastMessage(this, " ${user_branch} ${user_unit} am not seeing the value")
-//            Signup().SaveUserToDB(email, passord, displayname, user_branch, user_unit)
+//            toastMessage(this, " ${user_branch} ${user_unit} $email $passord $displayname")
+            Log.d("TAG_UNIT_BRANCH", "$email $passord $displayname $user_branch $user_unit")
+            Signup.SaveUserToDB(email, passord, displayname, user_branch, user_unit)
         }
     }
 }
