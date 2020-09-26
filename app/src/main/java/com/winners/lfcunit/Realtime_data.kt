@@ -20,12 +20,12 @@ class Realtime_data {
         return SaveUser(user_key, user.email, user.password, user.username, getCurrenttime)
     }
 
-    fun saveUser(content_obj:User,church_branch:String,unit_name:String, onSuccessAction:()->Unit, onFailureAction:()->Unit){
+    fun saveUser(user_obj:User,church_branch:String,unit_name:String, onSuccessAction:()->Unit, onFailureAction:()->Unit){
         val postUser = database.getReference(USER_REFERENCE)
         val user_key_ref = postUser.push().key?:""
-        val user = createUser(user_key_ref, content_obj)
+//        val user = createUser(user_key_ref, user_obj)
         postUser.child(church_branch).child(unit_name).child(user_key_ref)
-            .setValue(user)
+            .setValue(user_obj.also { it.key = user_key_ref })
             .addOnSuccessListener { onSuccessAction() }
             .addOnFailureListener { onFailureAction() }
     }
