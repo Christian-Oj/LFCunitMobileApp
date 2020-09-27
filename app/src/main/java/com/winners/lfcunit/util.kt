@@ -5,10 +5,7 @@ import android.os.Build
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import com.google.firebase.auth.FirebaseUser
 import java.time.LocalDateTime
@@ -53,4 +50,11 @@ fun assignSpinnerListener(spinner: Spinner, array:Array<String>):String{
     return array_value
 }
 
+
+fun setErrorRequired(view: EditText, message: String){
+    view.apply {
+        focusable
+        view.setError(message)
+    }
+}
 
