@@ -45,6 +45,7 @@ class user_branch_and_unit : AppCompatActivity(), View.OnClickListener {
         lateinit var email:String
         lateinit var passord:String
         lateinit var displayname:String
+        lateinit var user_id:String
     }
 
     override fun onClick(v: View?) {
@@ -60,25 +61,18 @@ class user_branch_and_unit : AppCompatActivity(), View.OnClickListener {
         email = bundle.getString(Signup.USER_EMAIL).toString()
         passord = bundle.getString(Signup.USER_PASSWORD).toString()
         displayname = bundle.getString(Signup.USER_DISPLAYNAME).toString()
-
-
-
+        user_id= bundle.getString(Signup.USER_ID).toString()
     }
 
     private fun branch_unit_Class_saveUser() {
-//        var user_branch:String=""
-//        var user_unit:String=""
         val user_branch = spinner_branch.selectedItem.toString().replace(" ", "_")
         val user_unit = spinner_unit.selectedItem.toString().replace(" ", "_")
-
 //        user_branch = assignSpinnerListener(spinner_branch, branch_array)
 
         if (intent_value != null) {
             getValueFromGoogleSignUp(intent_value!!)
-
-//            toastMessage(this, " ${user_branch} ${user_unit} $email $passord $displayname")
             Log.d("TAG_UNIT_BRANCH", "$email $passord $displayname $user_branch $user_unit")
-            Signup.SaveUserToDB(email, passord, displayname, user_branch, user_unit)
+            Signup.SaveUserToDB(email, passord, displayname, user_id, user_branch, user_unit)
         }
     }
 }

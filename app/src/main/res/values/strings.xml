@@ -34,7 +34,7 @@
     </array>
 
     <array name="units">
-        <item></item>
+        <item>Select Serving Unit</item>
         <item>Crowd Control Unit(CCU)</item>
         <item>Hospitality Unit</item>
         <item>Security Unit</item>
@@ -51,7 +51,7 @@
     </array>
 
     <array name="church_branch">
-        <item></item>
+        <item>Select Church Branch</item>
         <item>Canaan Land</item>
         <item>LFC Iyekogba</item>
         <item>LFC Aduwawa</item>
